@@ -1,0 +1,26 @@
+IDIR =/usr/local/include
+CC=gcc
+CFLAGS=-I$(IDIR)
+
+ODIR=.
+LDIR =/usr/local/lib
+
+LIBS=-L
+
+#_DEPS = coba.h
+#DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ = coba.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+
+$(ODIR)/%.o: %.c #$(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+coba: $(OBJ)
+	gcc -o $@ $^ $(CFLAGS) $(LIBS)$(LDIR) -l:libfdcore.so -l:libfdproto.so
+
+.PHONY: clean
+
+clean:
+	rm -f coba
